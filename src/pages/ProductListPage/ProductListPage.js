@@ -4,7 +4,8 @@ import ProductItem from "../../components/ProductItem/ProductItem";
 
 import { connect } from "react-redux";
 
-import callApi from "../../utils/apiCaller";
+import callApi from "../../utils/callApi";
+import { Link } from "react-router-dom";
 
 function ProductListPage(props) {
   // var { products } = props; // Gọi từ redux
@@ -12,19 +13,30 @@ function ProductListPage(props) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    callApi("api/products", "GET", null).then(function (res) {
+    callApi("api/products", "GET", null).then((res) => {
       setProducts(res.data);
     });
   }, []);
 
+  const onDelete = (id) => {
+    callApi(`api/products/${id}`, "DELETE", null).then((res) =>
+      setProducts(res.data)
+    );
+  };
+
   return (
     <div>
-      <button type="button" className="btn btn-outline-primary mb-3">
+      <Link to="/product/add" className="btn btn-outline-primary mb-3">
         Add A New Product
-      </button>
+      </Link>
       <ProductList>
         {products.map((product, index) => (
-          <ProductItem key={index} product={product} index={index} />
+          <ProductItem
+            key={index}
+            product={product}
+            index={index}
+            onDelete={onDelete}
+          />
         ))}
       </ProductList>
     </div>

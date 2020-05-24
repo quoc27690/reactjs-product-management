@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductItem(props) {
   var { product, index } = props;
+  var { onDelete } = props;
 
   var statusName = product.status ? "Stocking" : "Out of stock";
   var classNameStatus = product.status
@@ -19,10 +21,22 @@ export default function ProductItem(props) {
         </button>
       </td>
       <td>
-        <button type="button" className="btn btn-outline-warning mr-3">
+        <Link
+          to={`/product/${product._id}/edit`}
+          className="btn btn-outline-warning mr-3"
+        >
           Fix
-        </button>
-        <button type="button" className="btn btn-outline-danger">
+        </Link>
+        <button
+          type="button"
+          className="btn btn-outline-danger"
+          onClick={() => {
+            // eslint-disable-next-line no-restricted-globals
+            if (confirm("Are You Sure Delete?")) {
+              onDelete(product._id);
+            }
+          }}
+        >
           Delete
         </button>
       </td>
