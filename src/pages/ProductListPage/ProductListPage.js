@@ -6,16 +6,15 @@ import { connect } from "react-redux";
 
 import callApi from "../../utils/callApi";
 import { Link } from "react-router-dom";
+import { actFetchProducts, actFetchProductsRequest } from "../../actions";
 
 function ProductListPage(props) {
-  // var { products } = props; // Gọi từ redux
+  var { products } = props; // Gọi từ redux
 
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    callApi("api/products", "GET", null).then((res) => {
-      setProducts(res.data);
-    });
+    props.fetchAllProducts();
   }, []);
 
   const onDelete = (id) => {
@@ -49,4 +48,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(ProductListPage);
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    fetchAllProducts: () => {
+      dispatch(actFetchProductsRequest);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListPage);
