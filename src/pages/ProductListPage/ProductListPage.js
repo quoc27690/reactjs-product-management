@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ProductList from "../../components/ProductList/ProductList";
 import ProductItem from "../../components/ProductItem/ProductItem";
 
 import { connect } from "react-redux";
 
-import callApi from "../../utils/callApi";
+// import callApi from "../../utils/callApi";
 import { Link } from "react-router-dom";
-import { actFetchProducts, actFetchProductsRequest } from "../../actions";
+import {
+  actFetchProductsRequest,
+  actDeleteProductRequest,
+} from "../../actions";
 
 function ProductListPage(props) {
   var { products } = props; // Gọi từ redux
@@ -14,13 +17,15 @@ function ProductListPage(props) {
   // const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    // callApi("api/products/", "GET", null).then((res) => setProducts(res.data));
     props.fetchAllProducts();
   }, []);
 
   const onDelete = (id) => {
-    callApi(`api/products/${id}`, "DELETE", null).then((res) =>
-      setProducts(res.data)
-    );
+    // callApi(`api/products/${id}`, "DELETE", null).then((res) =>
+    //   setProducts(res.data)
+    // );
+    props.onDeleteProduct(id);
   };
 
   return (
@@ -51,7 +56,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, props) => {
   return {
     fetchAllProducts: () => {
-      dispatch(actFetchProductsRequest);
+      dispatch(actFetchProductsRequest());
+    },
+    onDeleteProduct: (id) => {
+      dispatch(actDeleteProductRequest(id));
     },
   };
 };

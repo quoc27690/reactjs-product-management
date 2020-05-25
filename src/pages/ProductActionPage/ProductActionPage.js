@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import callApi from "../../utils/callApi";
 import { Link } from "react-router-dom";
 
-export default function ProductActionPage(props) {
+import { connect } from "react-redux";
+import { actAddProductRequest, actGetProductRequest } from "../../actions";
+import itemEditing from "../../reducers/itemEditing";
+
+function ProductActionPage(props) {
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -33,11 +37,17 @@ export default function ProductActionPage(props) {
         status: product.status,
       }).then((res) => history.goBack());
     } else {
-      callApi("api/products", "POST", {
+      // callApi("api/products", "POST", {
+      //   name: product.name,
+      //   price: product.price,
+      //   status: product.status,
+      // }).then((res) => history.goBack());
+      props.onAddProduct({
         name: product.name,
         price: product.price,
         status: product.status,
-      }).then((res) => history.goBack());
+      });
+      history.goBack();
     }
   };
 
@@ -109,3 +119,19 @@ export default function ProductActionPage(props) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    itemEditing: state.itemEditing,
+  };
+};
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onAddProduct: (id) => {
+      dispatch(actAddProductRequest(id));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductActionPage);

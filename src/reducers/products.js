@@ -7,6 +7,12 @@ const products = (state = initialState, action) => {
     case Types.FETCH_PRODUCTS:
       state = action.products;
       return [...state];
+    case Types.DELETE_PRODUCTS:
+      state = action.products;
+      return [...state];
+    case Types.ADD_PRODUCT:
+      state.push(action.product);
+      return [...state];
     default:
       return [...state];
   }
