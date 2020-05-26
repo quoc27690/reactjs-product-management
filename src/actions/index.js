@@ -42,14 +42,14 @@ export const actAddProductRequest = (product) => {
   };
 };
 
-export const actAddProduct = (product) => {
+export const actAddProduct = (products) => {
   return {
     type: Types.ADD_PRODUCT,
-    product,
+    products,
   };
 };
 
-// Edit a product
+// Get to Edit a product
 export const actGetProductRequest = (id) => {
   return (dispatch) => {
     return callApi(`api/products/${id}`, "GET", null).then((res) => {
@@ -62,5 +62,21 @@ export const actGetProduct = (product) => {
   return {
     type: Types.EDIT_PRODUCTS,
     product,
+  };
+};
+
+// Update a product
+export const actUpdateProductRequest = (id, product) => {
+  return (dispatch) => {
+    return callApi(`api/products/${id}`, "PUT", product).then((res) => {
+      dispatch(actUpdateProduct(res.data));
+    });
+  };
+};
+
+export const actUpdateProduct = (products) => {
+  return {
+    type: Types.UPDATE_PRODUCTS,
+    products,
   };
 };

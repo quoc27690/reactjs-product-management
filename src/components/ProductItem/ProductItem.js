@@ -33,6 +33,7 @@ export default function ProductItem(props) {
           onClick={() => {
             // eslint-disable-next-line no-restricted-globals
             if (confirm("Are You Sure Delete?")) {
+              // Gọi hàm onDelete từ props và truyền ngược lại product._id
               onDelete(product._id);
             }
           }}

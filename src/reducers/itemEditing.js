@@ -5,9 +5,11 @@ var initialState = {};
 const itemEditing = (state = initialState, action) => {
   switch (action.type) {
     case Types.EDIT_PRODUCTS:
-      return action.product;
+      state = action.product;
+      return { ...state };
+
     default:
-      return state;
+      return { ...state };
   }
 };
 
